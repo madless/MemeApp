@@ -10,6 +10,7 @@ import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+    @IBOutlet var containerImageView: UIView!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var buttonView: UIButton!
     @IBOutlet var topTextView: UITextField!
@@ -25,6 +26,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         
         buttonView.addTarget(self, action: #selector(pickAnImageFromGallery), for: UIControlEvents.touchUpInside)
         buttonShare.addTarget(self, action: #selector(share), for: UIControlEvents.touchUpInside)
+        
+        renderTextViews()
     }
 
     
@@ -59,11 +62,24 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     
     func renderTextViews() {
         let memeTextAttributes:[String:Any] = [
-            NSStrokeColorAttributeName: UIColor(),
+            NSStrokeColorAttributeName: UIColor(red: 0, green: 0, blue: 0, alpha: 1),
             NSForegroundColorAttributeName: UIColor(),
             NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
             NSStrokeWidthAttributeName: Float(20)]
-        topTextView.defaultTextAttributes = memeTextAttributes
+        
+        let helvetica = UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!
+        let attributes:[String:Any] = [
+            NSStrokeColorAttributeName : UIColor.black,
+            NSForegroundColorAttributeName : UIColor.white,
+            NSStrokeWidthAttributeName : NSNumber(value: -4.0),
+            NSFontAttributeName: helvetica
+        ]
+        
+        topTextView.defaultTextAttributes = attributes
+        botTextView.defaultTextAttributes = attributes
+        
+        topTextView.textAlignment = .center
+        botTextView.textAlignment = .center
     }
     
     func share() {
@@ -84,11 +100,22 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     
     func generateMemedImage() -> UIImage {
         
+        buttonShare.isHidden = true
+        buttonView.isHidden = true
+        
         // Render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
-        let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsBeginImageContext(self.containerImageView.frame.size)
+        
+//        self.containerImageView.drawHierarchy(in: self.containerImageView.frame, afterScreenUpdates: true)
+//        let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+//        UIGraphicsEndImageContext()
+        
+        self.containerImageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let memedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
+        
+        buttonShare.isHidden = false
+        buttonView.isHidden = false
         
         return memedImage
     }
