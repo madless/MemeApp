@@ -9,13 +9,15 @@
 import UIKit
 
 class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    @IBOutlet var pickFromCameraButtonView: UIButton!
 
+    @IBOutlet var defaultIconView: UIImageView!
     @IBOutlet var containerImageView: UIView!
     @IBOutlet var imageView: UIImageView!
-    @IBOutlet var buttonView: UIButton!
+    @IBOutlet var pickFromGalleryButtonView: UIButton!
     @IBOutlet var topTextView: UITextField!
     @IBOutlet var botTextView: UITextField!
-    @IBOutlet var buttonShare: UIButton!
+    @IBOutlet var clearButtonView: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,18 +26,56 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         topTextView.delegate = self
         botTextView.delegate = self
         
-        buttonView.addTarget(self, action: #selector(pickAnImageFromGallery), for: UIControlEvents.touchUpInside)
-        buttonShare.addTarget(self, action: #selector(share), for: UIControlEvents.touchUpInside)
+        pickFromGalleryButtonView.addTarget(self, action: #selector(pickAnImageFromGallery), for: UIControlEvents.touchUpInside)
+        pickFromCameraButtonView.addTarget(self, action: #selector(pickAnImageFromCamera), for: UIControlEvents.touchUpInside)
+        clearButtonView.addTarget(self, action: #selector(clear), for: UIControlEvents.touchUpInside)
         
         renderTextViews()
+        
+        let shareActionButton: UIBarButtonItem = UIBarButtonItem(title: "Share", style: .done, target: self, action: #selector(share))
+        self.navigationItem.rightBarButtonItem = shareActionButton
+        
+        prepareCircularDefaultImage(image: defaultIconView)
+        
+        renderNotOpenedMode()
     }
-
+    
+    func prepareCircularDefaultImage(image: UIImageView) {
+        image.layer.cornerRadius = image.frame.size.width/2
+        image.clipsToBounds = true
+    }
+    
+    func renderNotOpenedMode() {
+        pickFromGalleryButtonView.isHidden = false
+        pickFromCameraButtonView.isHidden = false
+        defaultIconView.isHidden = false
+        
+        clearButtonView.isHidden = true
+        topTextView.isHidden = true
+        botTextView.isHidden = true
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
+    }
+    
+    func renderOpenedMode() {
+        pickFromGalleryButtonView.isHidden = true
+        pickFromCameraButtonView.isHidden = true
+        defaultIconView.isHidden = true
+        
+        clearButtonView.isHidden = false
+        topTextView.isHidden = false
+        botTextView.isHidden = false
+        
+        self.navigationItem.rightBarButtonItem?.isEnabled = true
+    }
     
     func pickAnImageFromGallery() {
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.sourceType = .photoLibrary
         present(picker, animated: true, completion: nil)
+        
+        renderOpenedMode()
     }
     
     func pickAnImageFromCamera() {
@@ -44,7 +84,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
             picker.delegate = self
             picker.sourceType = .camera
             present(picker, animated: true, completion: nil)
+            
+            renderOpenedMode()
         }
+    }
+    
+    func clear() {
+        imageView.image = nil
+        topTextView.text = nil
+        botTextView.text = nil
+        renderNotOpenedMode()
     }
     
     func imagePickerController(_ picker: UIImagePickerController,
@@ -61,12 +110,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     }
     
     func renderTextViews() {
-        let memeTextAttributes:[String:Any] = [
-            NSStrokeColorAttributeName: UIColor(red: 0, green: 0, blue: 0, alpha: 1),
-            NSForegroundColorAttributeName: UIColor(),
-            NSFontAttributeName: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-            NSStrokeWidthAttributeName: Float(20)]
-        
         let helvetica = UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!
         let attributes:[String:Any] = [
             NSStrokeColorAttributeName : UIColor.black,
@@ -74,22 +117,40 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
             NSStrokeWidthAttributeName : NSNumber(value: -4.0),
             NSFontAttributeName: helvetica
         ]
+        let hintAttributes:[String:Any] = [
+            NSStrokeColorAttributeName : UIColor.black,
+            NSForegroundColorAttributeName : UIColor.lightGray,
+            NSStrokeWidthAttributeName : NSNumber(value: -4.0),
+            NSFontAttributeName: helvetica
+        ]
+        
         
         topTextView.defaultTextAttributes = attributes
         botTextView.defaultTextAttributes = attributes
         
         topTextView.textAlignment = .center
         botTextView.textAlignment = .center
+        
+        topTextView.attributedPlaceholder = NSAttributedString(string: "TOP TEXT", attributes: hintAttributes)
+        botTextView.attributedPlaceholder = NSAttributedString(string: "BOTTOM TEXT", attributes: hintAttributes)
     }
     
     func share() {
-        let text = "This is some text that I want to share."
-        let memedImage = generateMemedImage()
-        
-        // set up activity view controller
-        let textToShare = [ text, memedImage   ] as [Any]
-        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-        self.present(activityViewController, animated: true, completion: nil)
+        if(topTextView.text != nil && topTextView.text != "" && botTextView.text != nil && botTextView.text != "") {
+            let text = "Hey! I've done something funny!"
+            let memedImage = generateMemedImage()
+            // set up activity view controller
+            let textToShare = [ text, memedImage   ] as [Any]
+            let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+            self.present(activityViewController, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Hold on cowboy", message: "You should fill top and bottom fields first", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: {
+                action in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     func save() {
@@ -99,24 +160,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     }
     
     func generateMemedImage() -> UIImage {
-        
-        buttonShare.isHidden = true
-        buttonView.isHidden = true
-        
-        // Render view to an image
         UIGraphicsBeginImageContext(self.containerImageView.frame.size)
-        
-//        self.containerImageView.drawHierarchy(in: self.containerImageView.frame, afterScreenUpdates: true)
-//        let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-        
         self.containerImageView.layer.render(in: UIGraphicsGetCurrentContext()!)
         let memedImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
-        
-        buttonShare.isHidden = false
-        buttonView.isHidden = false
-        
         return memedImage
     }
 

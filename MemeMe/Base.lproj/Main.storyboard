@@ -29,13 +29,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="331" height="493"/>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="BOTTOM TEXT" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XTI-R0-xAy">
-                                        <rect key="frame" x="102.5" y="463" width="127.5" height="22"/>
+                                        <rect key="frame" x="102" y="463" width="128" height="22"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                                     </textField>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="TOP TEXT" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9Up-VO-Kv0">
-                                        <rect key="frame" x="121.5" y="8" width="88" height="22"/>
+                                        <rect key="frame" x="122" y="8" width="88" height="22"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
@@ -53,37 +53,56 @@
                                     <constraint firstItem="XTI-R0-xAy" firstAttribute="centerX" secondItem="49h-Tm-A06" secondAttribute="centerX" id="yRC-9o-e8O"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wsg-59-u8J">
-                                <rect key="frame" x="235" y="573" width="118" height="30"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_default_image" translatesAutoresizingMaskIntoConstraints="NO" id="Aac-OJ-9JT">
+                                <rect key="frame" x="87" y="219" width="200" height="200"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="118" id="f1y-Je-a4T"/>
+                                    <constraint firstAttribute="width" constant="200" id="A5M-Vk-Arh"/>
+                                    <constraint firstAttribute="height" constant="200" id="fG7-sT-gzj"/>
                                 </constraints>
-                                <state key="normal" title="Select image"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wsg-59-u8J">
+                                <rect key="frame" x="66" y="429" width="243" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Pick from gallery"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="msH-Za-LET">
-                                <rect key="frame" x="22" y="573" width="40" height="30"/>
-                                <state key="normal" title="Share"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I6n-Fo-O5r">
+                                <rect key="frame" x="66" y="463" width="242" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Pick from camera"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wue-GW-6D8">
+                                <rect key="frame" x="22" y="573" width="331" height="30"/>
+                                <state key="normal" title="Clear"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="I6n-Fo-O5r" firstAttribute="top" secondItem="Wsg-59-u8J" secondAttribute="bottom" id="08U-Lu-Zky"/>
                             <constraint firstItem="49h-Tm-A06" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="6" id="0SS-aO-IZm"/>
                             <constraint firstItem="49h-Tm-A06" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="3Cy-zx-ZIk"/>
-                            <constraint firstItem="Wsg-59-u8J" firstAttribute="top" secondItem="49h-Tm-A06" secondAttribute="bottom" constant="8" id="9Cf-mX-V1x"/>
-                            <constraint firstItem="msH-Za-LET" firstAttribute="leading" secondItem="49h-Tm-A06" secondAttribute="leading" id="MyC-x8-dgO"/>
-                            <constraint firstItem="msH-Za-LET" firstAttribute="top" secondItem="49h-Tm-A06" secondAttribute="bottom" constant="8" id="aFs-40-8s1"/>
+                            <constraint firstItem="Aac-OJ-9JT" firstAttribute="centerX" secondItem="49h-Tm-A06" secondAttribute="centerX" id="7Vw-qU-7CG"/>
+                            <constraint firstItem="wue-GW-6D8" firstAttribute="trailing" secondItem="49h-Tm-A06" secondAttribute="trailing" id="BM8-1H-Yzm"/>
+                            <constraint firstItem="wue-GW-6D8" firstAttribute="leading" secondItem="49h-Tm-A06" secondAttribute="leading" id="Lmw-dE-Dwk"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Wsg-59-u8J" secondAttribute="trailing" constant="50" id="ULY-M1-QMp"/>
                             <constraint firstAttribute="trailingMargin" secondItem="49h-Tm-A06" secondAttribute="trailing" constant="6" id="bkC-0Z-jkq"/>
+                            <constraint firstItem="wue-GW-6D8" firstAttribute="top" secondItem="49h-Tm-A06" secondAttribute="bottom" constant="8" id="dVW-dn-AmQ"/>
+                            <constraint firstItem="Wsg-59-u8J" firstAttribute="top" secondItem="Aac-OJ-9JT" secondAttribute="bottom" constant="10" id="eir-ea-k1s"/>
+                            <constraint firstItem="I6n-Fo-O5r" firstAttribute="leading" secondItem="Wsg-59-u8J" secondAttribute="leading" id="olr-gV-2zT"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="49h-Tm-A06" secondAttribute="bottom" constant="102" id="sFA-dJ-WGL"/>
-                            <constraint firstItem="Wsg-59-u8J" firstAttribute="trailing" secondItem="49h-Tm-A06" secondAttribute="trailing" id="w5j-RB-YLU"/>
+                            <constraint firstItem="I6n-Fo-O5r" firstAttribute="centerX" secondItem="Aac-OJ-9JT" secondAttribute="centerX" id="tBV-TI-NLZ"/>
+                            <constraint firstItem="Aac-OJ-9JT" firstAttribute="centerY" secondItem="49h-Tm-A06" secondAttribute="centerY" id="yA5-R8-T96"/>
+                            <constraint firstItem="Wsg-59-u8J" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="50" id="yFQ-jr-lAi"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ESB-sA-ZNi"/>
                     <connections>
                         <outlet property="botTextView" destination="XTI-R0-xAy" id="04X-zV-IZd"/>
-                        <outlet property="buttonShare" destination="msH-Za-LET" id="l4X-hg-wAC"/>
-                        <outlet property="buttonView" destination="Wsg-59-u8J" id="MqU-Ne-P3q"/>
+                        <outlet property="clearButtonView" destination="wue-GW-6D8" id="IWy-f5-r55"/>
                         <outlet property="containerImageView" destination="49h-Tm-A06" id="vGc-MI-4xk"/>
+                        <outlet property="defaultIconView" destination="Aac-OJ-9JT" id="TYc-gP-rDC"/>
                         <outlet property="imageView" destination="6Nu-rF-c19" id="yr8-xt-NvL"/>
+                        <outlet property="pickFromCameraButtonView" destination="I6n-Fo-O5r" id="eOw-cg-SJf"/>
+                        <outlet property="pickFromGalleryButtonView" destination="Wsg-59-u8J" id="T9c-GC-zax"/>
                         <outlet property="topTextView" destination="9Up-VO-Kv0" id="L0Z-Ok-6V5"/>
                     </connections>
                 </viewController>
@@ -110,4 +129,7 @@
             <point key="canvasLocation" x="32.799999999999997" y="86.806596701649184"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="ic_default_image" width="400" height="400"/>
+    </resources>
 </document>
