@@ -37,6 +37,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         
         prepareCircularDefaultImage(image: defaultIconView)
         
+        self.tabBarController?.tabBar.isHidden = true
+        
         renderNotOpenedMode()
     }
     
@@ -142,6 +144,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
             // set up activity view controller
             let textToShare = [ text, memedImage   ] as [Any]
             let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+            save(memedImage: memedImage)
             self.present(activityViewController, animated: true, completion: nil)
         } else {
             let alert = UIAlertController(title: "Hold on cowboy", message: "You should fill top and bottom fields first", preferredStyle: UIAlertControllerStyle.alert)
@@ -153,10 +156,14 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         }
     }
     
-    func save() {
-        // Create the meme
-        let memedImage = generateMemedImage()
+    func save(memedImage: UIImage) {
         let meme = Meme(topTextView.text!, botTextView.text!, imageView.image!, memedImage)
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        appDelegate?.memes.append(meme)
+        print("save")
+        for meme in (appDelegate?.memes)! {
+            print(meme.topText)
+        }
     }
     
     func generateMemedImage() -> UIImage {
